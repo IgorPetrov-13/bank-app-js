@@ -1,3 +1,4 @@
+import styles from './home.module.scss';
 import template from './home.template.html';
 import { BaseScreen } from '@/core/component/base-screen-component';
 import renderService from '@/core/services/render.service';
@@ -7,7 +8,7 @@ export class Home extends BaseScreen {
     super({ title: 'Home' });
   }
   render() {
-    const element = renderService.htmlToElement(template);
-    return '<p>HOME</p>';
+    const element = renderService.htmlToElement(template, [], styles);
+    return element;
   }
 }
