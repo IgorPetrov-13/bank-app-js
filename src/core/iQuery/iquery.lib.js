@@ -35,6 +35,42 @@ class IQuery {
   }
 
   /**
+   * Append a child element to the current element
+   * @param {HTMLElement} childElement The element to append
+   * @returns {IQuery} A new IQuery instance
+   */
+  append(childElement) {
+    this.element.appendChild(childElement);
+    return this;
+  }
+
+  /**
+   * Remove child element from the current element
+   * @param {HTMLElement} childElement The element to remove
+   * @returns {IQuery} A new IQuery instance
+   */
+  remove(childElement) {
+    if (!(childElement instanceof HTMLElement)) {
+      throw new Error('Invalid child element');
+    }
+    this.element.removeChild(childElement);
+    return this;
+  }
+
+  /**
+   * Insert a child element before the current element
+   * @param {HTMLElement} childElement The element to insert
+   * @returns {IQuery} A new IQuery instance
+   */
+  before(childElement) {
+    if (!(childElement instanceof HTMLElement)) {
+      throw new Error('Invalid child element');
+    }
+    this.element.before(childElement);
+    return this;
+  }
+
+  /**
    * Set CSS style
    * @param {string} property
    * @param {string} value

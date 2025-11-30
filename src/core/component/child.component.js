@@ -1,19 +1,9 @@
-import { getTitle } from '@/config/seo.config';
-
-export class ChildComponent {
+export default class ChildComponent {
   /**
-   * @param {Object} options
-   * @param {string} options.title - Title of the screen
-   *
-   */
-  constructor({ title }) {
-    document.title = getTitle(title);
-  }
-
-  /**
+   * Render the child component content.
    * @returns {HTMLElement}
    */
   render() {
-    throw new Error('Render method error');
+    throw new Error('Render method must be implemented in the child class');
   }
 }

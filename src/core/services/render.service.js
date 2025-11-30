@@ -1,6 +1,12 @@
-import { ChildComponent } from '../component/child.component';
+import ChildComponent from '../component/child.component';
 
 class RenderService {
+  /**
+   * @param {string} html
+   * @param {Array} components
+   * @param {Object} [styles]
+   * @returns {HTMLElement}
+   */
   htmlToElement(html, components = [], styles) {
     const template = document.createElement('template');
     template.innerHTML = html.trim();
@@ -12,6 +18,7 @@ class RenderService {
     }
 
     this.#replaceComponentTags(element, components);
+
     return element;
   }
 
@@ -19,26 +26,27 @@ class RenderService {
    * @param {HTMLElement} parentElement
    * @param {Array} components
    */
-  #replaceComponentTags() {
+  #replaceComponentTags(parentElement, components) {
     const componentTagPattern = /^component-/;
-    const allElement = parentElement.getElementByTagName('*');
+    const allElements = parentElement.getElementsByTagName('*');
 
-    for (const element of allElement) {
+    for (const element of allElements) {
       const elementTagName = element.tagName.toLowerCase();
       if (componentTagPattern.test(elementTagName)) {
         const componentName = elementTagName.replace(componentTagPattern, '').replace(/-/g, '');
 
-        const foundComponent = components.find((component) => {
-          const instance = component instanceof ChildComponent ? component : new component();
+        const foundComponent = components.find((Component) => {
+          const instance = Component instanceof ChildComponent ? Component : new Component();
+
           return instance.constructor.name.toLowerCase() === componentName;
         });
 
         if (foundComponent) {
           const componentContent =
-            foundComponent instanceof ChildComponent ? foundComponent.render() : new foundComponent.render();
+            foundComponent instanceof ChildComponent ? foundComponent.render() : new foundComponent().render();
           element.replaceWith(componentContent);
         } else {
-          console.error(`Component ${componentName} not found`);
+          console.error(`Component "${componentName}" not found in the provided components array.`);
         }
       }
     }
@@ -66,8 +74,17 @@ class RenderService {
     }
 
     const elements = element.querySelectorAll('*');
-    elements.foreEach(applyStyles);
+    elements.forEach(applyStyles);
   }
 }
 
 export default new RenderService();
+
+{
+  /* <div class='home'>
+	<h1 class='text'></h1>
+	<component-heading></component-heading>
+	<component-card-info></component-card-info>
+</div>
+ */
+}
