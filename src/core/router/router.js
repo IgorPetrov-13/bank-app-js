@@ -1,3 +1,4 @@
+import { $I } from '../iQuery/iquery.lib';
 import { ROUTES } from './routes.data';
 import { Layout } from '@/components/layout/layout.component';
 import { NotFound } from '@/components/screens/not-found/not-found.component';
@@ -56,16 +57,18 @@ export class Router {
   }
 
   #render() {
-    const component = new this.#currentRoute.component();
+    const component = new this.#currentRoute.component().render();
 
     if (!this.#layout) {
       this.#layout = new Layout({
         router: this,
-        children: component.render(),
-      });
-      document.getElementById('app').innerHTML = this.#layout.render();
+        children: component,
+      }).render();
+
+      $I('#app').append(this.#layout);
     } else {
-      document.querySelector('main').innerHTML = component.render();
+      $I('#content').html('').append(component);
+      document.querySelector('main').innerHTML = component;
     }
   }
 }

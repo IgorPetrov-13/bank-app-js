@@ -59,15 +59,35 @@ class IQuery {
 
   /**
    * Insert a child element before the current element
-   * @param {HTMLElement} childElement The element to insert
+   * @param {HTMLElement} newElement The element to insert
    * @returns {IQuery} A new IQuery instance
    */
-  before(childElement) {
-    if (!(childElement instanceof HTMLElement)) {
+  before(newElement) {
+    if (!(newElement instanceof HTMLElement)) {
       throw new Error('Invalid child element');
     }
-    this.element.before(childElement);
-    return this;
+
+    const parentElement = this.element.parentElement;
+    if (parentElement) {
+      parentElement.insertBefore(newElement, this.element);
+      return this;
+    } else {
+      throw new Error('Element does not have a parent element');
+    }
+  }
+
+  /**
+   * Get or set the HTML content of the element
+   * @param {string} [htmlContent] The HTML content to set
+   * @returns {IQuery} A new IQuery instance
+   */
+  html(htmlContent) {
+    if (typeof htmlContent === 'undefined') {
+      return this.element.innerHTML;
+    } else {
+      this.element.innerHTML = htmlContent;
+      return this;
+    }
   }
 
   /**
