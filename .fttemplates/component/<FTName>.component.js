@@ -1,4 +1,4 @@
-import template from './<FTName>.component.html';
+import template from './<FTName>.template.html';
 import styles from './<FTName>.module.scss';
 
 import ChildComponent from '@/core/component/child.component'

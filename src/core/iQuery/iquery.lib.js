@@ -91,6 +91,16 @@ class IQuery {
   }
 
   /**
+   * Attach a click event listener to the element
+   * @param {function} callback The callback to call when the element is clicked
+   * @returns {IQuery} A new IQuery instance
+   */
+  click(callback) {
+    this.element.addEventListener('click', callback);
+    return this;
+  }
+
+  /**
    * Set CSS style
    * @param {string} property
    * @param {string} value
@@ -102,6 +112,38 @@ class IQuery {
     }
 
     this.element.style[property] = value;
+    return this;
+  }
+
+  /**
+   * Add CSS classes to the element
+   * @param {string | string[]} classNames The CSS class(es) to add
+   * @returns {IQuery} A new IQuery instance
+   */
+  addClass(classNames) {
+    if (typeof classNames === 'string') {
+      this.element.classList.add(classNames);
+    } else if (Array.isArray(classNames)) {
+      this.element.classList.add(...classNames);
+    } else {
+      throw new Error('classNames must be a string or an array');
+    }
+    return this;
+  }
+
+  /**
+   * Remove CSS classes from the element
+   * @param {string | string[]} classNames The CSS class(es) to remove
+   * @returns {IQuery} A new IQuery instance
+   */
+  removeClass(classNames) {
+    if (typeof classNames === 'string') {
+      this.element.classList.remove(classNames);
+    } else if (Array.isArray(classNames)) {
+      this.element.classList.remove(...classNames);
+    } else {
+      throw new Error('classNames must be a string or an array');
+    }
     return this;
   }
 }
