@@ -1,6 +1,6 @@
 import styles from './home.module.scss';
 import template from './home.template.html';
-import { Button } from '@/components/ui/button/button.component';
+import { Field } from '@/components/ui/field/field.component';
 import { BaseScreen } from '@/core/component/base-screen-component';
 import { $I } from '@/core/iQuery/iquery.lib';
 import renderService from '@/core/services/render.service';
@@ -13,18 +13,16 @@ export class Home extends BaseScreen {
     const element = renderService.htmlToElement(
       template,
       [
-        new Button({
-          children: 'Button11',
-          onClick: () => {
-            console.log('Button clicked');
-          },
-          variant: 'green',
+        new Field({
+          placeholder: 'Name',
+          name: 'name',
+          variant: 'credit-card',
         }),
       ],
       styles
     );
+    $I(element).find('h1').css('color', 'green');
 
-    
     return element;
   }
 }

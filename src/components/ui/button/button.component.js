@@ -1,6 +1,7 @@
-import template from './button.template.html';
-import styles from './button.module.scss';
 import ChildComponent from '@/core/component/child.component';
+import styles from './button.module.scss';
+import template from './button.template.html'
+
 import { $I } from '@/core/iQuery/iquery.lib';
 import renderService from '@/core/services/render.service';
 
@@ -18,6 +19,7 @@ export class Button extends ChildComponent {
   }
 
   render() {
+    console.log('Button.render');
     this.element = renderService.htmlToElement(template, [], styles);
 
     $I(this.element).html(this.children).click(this.onClick);

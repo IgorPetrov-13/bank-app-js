@@ -1,3 +1,5 @@
+import { formatCardNumber } from '@/utils/format/format-card-number';
+
 /**
  *  IQuery library
  */
@@ -140,10 +142,82 @@ class IQuery {
     if (typeof classNames === 'string') {
       this.element.classList.remove(classNames);
     } else if (Array.isArray(classNames)) {
-      this.element.classList.remove(...classNames);
+      for (const className of classNames) {
+        this.element.classList.remove(className);
+      }
     } else {
       throw new Error('classNames must be a string or an array');
     }
+    return this;
+  }
+
+  // FORM
+
+  /**
+   * Set attributes and event listeners on an input element
+   * @param {function} onInput The callback to call when the input element is changed
+   * @param {object} rest The attributes to set on the input element
+   * @returns {IQuery} A new IQuery instance
+   */
+  input({ onInput, ...rest }) {
+    if (this.element.tagName.toLowerCase() !== 'input') {
+      throw new Error('Element is not an input');
+    }
+
+    for (const [key, value] of Object.entries(rest)) {
+      this.element.setAttribute(key, value);
+    }
+    if (onInput) {
+      this.element.addEventListener('input', onInput);
+    }
+    return this;
+  }
+
+  /**
+   * Set a limit on a number input element
+   * @param {number} limit The maximum number of characters to allow in the input
+   * @returns {IQuery} A new IQuery instance
+   * @throws {Error} If the element is not an input or not a number input
+   */
+  numberLimit(limit) {
+    if (this.element.tagName.toLowerCase() !== 'input') {
+      throw new Error('Element is not an input');
+    }
+    if (this.element.type !== 'number') {
+      throw new Error('Element is not a number input');
+    }
+
+    this.element.addEventListener('input', (event) => {
+      const value = event.target.value.replace(/[^0-9]/g, '');
+      if (limit) {
+        event.target.value = value.slice(0, limit);
+      }
+    });
+    return this;
+  }
+
+  /**
+   * Format the input value as a credit card number
+   * @param {number} limit The maximum number of characters to allow in the input
+   * @returns {IQuery} A new IQuery instance
+   * @throws {Error} If the element is not an input or not a text input
+   */
+  creditCardInput() {
+    const limit = 16;
+    if (this.element.tagName.toLowerCase() !== 'input') {
+      throw new Error('Element is not an input');
+    }
+    if (this.element.type !== 'text') {
+      throw new Error('Element is not a text input');
+    }
+
+    this.element.addEventListener('input', (event) => {
+      const value = event.target.value.replace(/[^0-9]/g, '');
+      if (limit) {
+        value = value.slice(0, limit);
+      }
+      event.target.value = formatCardNumber(value);
+    });
     return this;
   }
 }
