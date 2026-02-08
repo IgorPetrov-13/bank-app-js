@@ -5,6 +5,8 @@ export class AboutUs extends BaseScreen {
     super({ title: 'About' });
   }
   render() {
-    return '<p> ABOUT</p>';
+    const p = document.createElement('p');
+    p.textContent = 'About';
+    return p;
   }
 }

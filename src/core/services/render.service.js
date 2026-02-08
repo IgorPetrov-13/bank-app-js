@@ -8,9 +8,10 @@ class RenderService {
    * @returns {HTMLElement}
    */
   htmlToElement(html, components = [], styles) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    const element = doc.body.firstChild;
+    const template = document.createElement('template');
+    template.innerHTML = html.trim();
+
+    const element = template.content.firstChild;
 
     if (styles) {
       this.#applyModuleStyles(styles, element);
@@ -33,7 +34,6 @@ class RenderService {
       const elementTagName = element.tagName.toLowerCase();
       if (componentTagPattern.test(elementTagName)) {
         const componentName = elementTagName.replace(componentTagPattern, '').replace(/-/g, '');
-
         const foundComponent = components.find((Component) => {
           const instance = Component instanceof ChildComponent ? Component : new Component();
 

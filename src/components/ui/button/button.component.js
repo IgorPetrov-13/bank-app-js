@@ -19,7 +19,6 @@ export class Button extends ChildComponent {
   }
 
   render() {
-    console.log('Button.render');
     this.element = renderService.htmlToElement(template, [], styles);
 
     $I(this.element).html(this.children).click(this.onClick);

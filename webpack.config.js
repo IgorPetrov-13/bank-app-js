@@ -44,7 +44,7 @@ module.exports = {
       '@': path.resolve(__dirname, 'src/'),
     },
   },
-  devtool: isDev ? 'source-map' : false,
+  devtool: isDev ? 'eval-source-map' : false,
   devServer: {
     port: 7777,
     hot: true,
@@ -52,14 +52,24 @@ module.exports = {
       directory: path.join(__dirname, 'public'),
     },
     historyApiFallback: true,
+    // client: {
+    //   overlay: {
+    //     errors: true,
+    //     warnings: false,
+    //   },
+    // },
   },
   optimization: {
     minimize: !isDev,
+    moduleIds: 'named',
+    chunkIds: 'named',
     minimizer: [
       new CssMinimizerPlugin(),
       new TerserPlugin({
         parallel: true,
         terserOptions: {
+          keep_classnames: true, 
+          keep_fnames: true,
           format: {
             comments: false,
           },

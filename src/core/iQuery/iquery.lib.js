@@ -42,6 +42,12 @@ class IQuery {
    * @returns {IQuery} A new IQuery instance
    */
   append(childElement) {
+    const elementToAppend = childElement instanceof IQuery ? childElement.element : childElement;
+
+    // Валидация
+    if (!(elementToAppend instanceof Node)) {
+      throw new TypeError(`IQuery.append: parameter 1 is not of type 'Node'. Current type: ${typeof childElement}`);
+    }
     this.element.appendChild(childElement);
     return this;
   }
@@ -88,6 +94,20 @@ class IQuery {
       return this.element.innerHTML;
     } else {
       this.element.innerHTML = htmlContent;
+      return this;
+    }
+  }
+
+  /**
+   * Get or set the text content of the element
+   * @param {string} [textContent] The text content to set
+   * @returns {IQuery} A new IQuery instance
+   */
+  text(textContent) {
+    if (typeof textContent === 'undefined') {
+      return this.element.textContent;
+    } else {
+      this.element.textContent = textContent;
       return this;
     }
   }
@@ -219,6 +239,25 @@ class IQuery {
       event.target.value = formatCardNumber(value);
     });
     return this;
+  }
+
+  /**
+   * Set or get an attribute on the element
+   * @param {string} attributeName The name of the attribute to set or get
+   * @param {string} [value] The value of the attribute to set
+   * @returns {IQuery|string} A new IQuery instance or the value of the attribute
+   * @throws {Error} If attributeName is not a string
+   */
+  attr(attributeName, value) {
+    if (typeof attributeName !== 'string') {
+      throw new Error(`attributeName must be string`);
+    }
+    if (typeof value === 'undefined') {
+      return this.element.getAttribute(attributeName);
+    } else {
+      this.element.setAttribute(attributeName, value);
+      return this;
+    }
   }
 }
 

@@ -5,6 +5,8 @@ export class Auth extends BaseScreen {
     super({ title: 'Auth' });
   }
   render() {
-    return '<p> Auth</p>';
+    const p = document.createElement('p');
+    p.textContent = 'Auth';
+    return p;
   }
 }
