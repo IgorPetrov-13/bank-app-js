@@ -1,0 +1,10 @@
+@use 'src/styles/variables' as *;
+
+.logo {
+  > a {
+    font-size: 40px;
+    font-weight: 600;
+    color: $white;
+    text-decoration: none;
+  }
+}
