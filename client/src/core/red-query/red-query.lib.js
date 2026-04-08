@@ -1,4 +1,7 @@
+import { NotificationService } from '../services/notification.service';
+import { StorageService } from '../services/storage.service';
 import { extractErrorMessage } from './extract-error-message';
+import { ACCESS_TOKEN_KEY } from '@/constants/auth.constants';
 
 /**
  * Make a request to the server with the given options.
@@ -18,11 +21,15 @@ export async function redQuery({
   onError = null,
   onSuccess = null,
 }) {
-  const result = { isLoading: true, error: null, data: null };
+  const result = {
+    isLoading: true,
+    error: null,
+    data: null,
+  };
   const url = `${SERVER_URL}/api${path}`;
 
   // token
-  const accessToken = 'token';
+  const accessToken = new StorageService().getItem(ACCESS_TOKEN_KEY);
 
   const requestOptions = {
     method,
@@ -51,10 +58,12 @@ export async function redQuery({
     } else {
       result.error = extractErrorMessage(payload);
       onError?.(result.error);
+      new NotificationService().show('error', result.error);
     }
   } catch (err) {
     result.error = extractErrorMessage(err);
     onError?.(result.error);
+    new NotificationService().show('error', result.error);
   } finally {
     result.isLoading = false;
   }
