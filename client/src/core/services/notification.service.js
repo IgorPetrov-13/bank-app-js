@@ -19,7 +19,7 @@ export class NotificationService {
 
   /**
    * Show a notification with given type and message
-   * @param {string} type - success or error
+   * @param {'success' | ''error} type - success or error
    * @param {string} message - notification message
    * @throws {Error} if type is not success or error
    */

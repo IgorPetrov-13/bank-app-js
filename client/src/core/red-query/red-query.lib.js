@@ -5,12 +5,13 @@ import { ACCESS_TOKEN_KEY } from '@/constants/auth.constants';
 
 /**
  * Make a request to the server with the given options.
- * @param {string} path The path to make the request to.
- * @param {object} [body] The body of the request.
- * @param {object} [headers] The headers of the request.
- * @param {string} [method] The method of the request, defaults to 'GET'.
- * @param {function} [onError] A function to call if the request fails.
- * @param {function} [onSuccess] A function to call if the request succeeds.
+ * @param {object} options The options
+ * @param {string} options.path The path to make the request to.
+ * @param {object} [options.body] The body of the request.
+ * @param {object} [options.headers] The headers of the request.
+ * @param {'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'} [options.method='GET']
+ * @param {function} [options.onError] A function to call if the request fails.
+ * @param {function} [options.onSuccess] A function to call if the request succeeds.
  * @returns {Promise} A promise that resolves with an object containing the request result.
  */
 export async function redQuery({
