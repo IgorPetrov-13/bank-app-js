@@ -46,7 +46,9 @@ class IQuery {
 
     // Валидация
     if (!(elementToAppend instanceof Node)) {
-      throw new TypeError(`IQuery.append: parameter 1 is not of type 'Node'. Current type: ${typeof childElement}`);
+      throw new TypeError(
+        `IQuery.append: parameter 1 is not of type 'Node'. Current type: ${typeof childElement}`,
+      );
     }
     this.element.appendChild(childElement);
     return this;
@@ -110,6 +112,24 @@ class IQuery {
       this.element.textContent = textContent;
       return this;
     }
+  }
+
+  /**
+   * Listen for the form submit event and execute the given callback function.
+   * @param {function} onSubmit - The callback function to execute when the form is submitted.
+   * @returns {IQuery} A new IQuery instance
+   * @throws {Error} If the element is not a form
+   */
+  submit(onSubmit) {
+    if (this.element.tagName.toLowerCase() === 'form') {
+      this.element.addEventListener('submit', (e) => {
+        e.preventDefault();
+        onSubmit(e);
+      });
+    } else {
+      throw new Error('Element must be a form');
+    }
+    return this;
   }
 
   /**
