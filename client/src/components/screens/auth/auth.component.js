@@ -3,10 +3,11 @@ import template from './auth.template.html';
 import { AuthService } from '@/api/auth.service';
 import { Button } from '@/components/ui/button/button.component';
 import { Field } from '@/components/ui/field/field.component';
-import { Heading } from '@/components/ui/heading/heading.component';
 import { BaseScreen } from '@/core/component/base-screen-component';
 import { $I } from '@/core/iQuery/iquery.lib';
+import formService from '@/core/services/form.service';
 import renderService from '@/core/services/render.service';
+import validationService from '@/core/services/validation.service';
 
 export class Auth extends BaseScreen {
   #isTypeLogin = true;
@@ -17,7 +18,26 @@ export class Auth extends BaseScreen {
     this.authService = new AuthService();
   }
 
-  #handleSubmit = (event) => {};
+  #validateFields(formValues) {
+    const emailLabel = $I(this.element).find('label[for="email"]');
+    const passwordLabel = $I(this.element).find('label[for="password"]');
+
+    if (!formValues.email) {
+      validationService.showError(emailLabel);
+    }
+    if (!formValues.password) {
+      validationService.showError(passwordLabel);
+    }
+
+    return formValues.email && formValues.password;
+  }
+
+  #handleSubmit = (event) => {
+    const formValues = formService.getFormValues(event.target);
+    if (!this.#validateFields(formValues)) {
+      return;
+    }
+  };
 
   #changeFormType = (event) => {
     event.preventDefault();
