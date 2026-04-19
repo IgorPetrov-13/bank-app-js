@@ -8,6 +8,8 @@ export class LogoutButton extends ChildComponent {
   constructor({ router }) {
     super();
     this.router = router;
+    this.store = Store.getInstance();
+    this.user = this.store.state.user;
   }
 
   render() {
@@ -16,6 +18,7 @@ export class LogoutButton extends ChildComponent {
     $I(this.element)
       .find('button')
       .click(() => {
+        this.store.logout();
         this.router.navigate('/auth');
       });
     return this.element;

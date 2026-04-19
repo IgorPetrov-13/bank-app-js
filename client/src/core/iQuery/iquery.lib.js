@@ -191,6 +191,24 @@ class IQuery {
     return this;
   }
 
+  /**
+   * Remove the display property from the element, effectively showing it.
+   * @returns {IQuery} A new IQuery instance
+   */
+  show() {
+    this.element.style.removeProperty('display');
+    return this;
+  }
+
+  /**
+   * Hides the element by setting its display property to 'none'.
+   * @returns {IQuery} A new IQuery instance
+   */
+  hide() {
+    this.element.style.display = 'none';
+    return this;
+  }
+
   // FORM
 
   /**
