@@ -21,10 +21,16 @@ export class Header extends ChildComponent {
   update() {
     this.user = this.store.state.user;
 
+    this.userItem = new UserItem({
+      name: 'User',
+      avatarPath: 'https://i.pravatar.cc/150?img=1',
+    });
+
     // "auth-side" element
     const authSideElement = $I(this.element).find('#auth-side');
     if (this.user) {
       authSideElement.show();
+      this.userItem.update(this.user);
       // redirect
       this.router.navigate('/');
     } else {
@@ -35,16 +41,9 @@ export class Header extends ChildComponent {
   render() {
     this.element = renderService.htmlToElement(
       template,
-      [
-        Logo,
-        new LogoutButton({ router: this.router }),
-        Search,
-        new UserItem({
-          name: 'User 1',
-          avatarPath: 'https://i.pravatar.cc/150?img=1',
-        }),
-      ],
+      [Logo, new LogoutButton({ router: this.router }), Search],
       styles,
+      this.userItem,
     );
 
     this.update();

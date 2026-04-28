@@ -143,6 +143,23 @@ class IQuery {
   }
 
   /**
+   * Attach an event listener to the element
+   * @param {string} event The event to listen for
+   * @param {function} callback The callback to call when the event is triggered
+   * @returns {IQuery} A new IQuery instance
+   */
+  on(event, callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('Callback must be a function');
+    }
+    if (typeof event !== 'string') {
+      throw new Error('Event must be a string');
+    }
+    this.element.addEventListener(event, callback);
+    return this;
+  }
+
+  /**
    * Set CSS style
    * @param {string} property
    * @param {string} value
