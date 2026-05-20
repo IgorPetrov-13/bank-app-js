@@ -37,6 +37,20 @@ class IQuery {
   }
 
   /**
+   * Find all method
+   * @param {string} selector
+   * @returns {IQuery[]} An array of IQuery instances
+   */
+  findAll(selector) {
+    const elements = this.element.querySelectorAll(selector);
+    if (elements) {
+      return Array.from(elements).map((element) => new IQuery(element));
+    } else {
+      throw new Error(`Element ${selector} not found`);
+    }
+  }
+
+  /**
    * Append a child element to the current element
    * @param {HTMLElement} childElement The element to append
    * @returns {IQuery} A new IQuery instance
