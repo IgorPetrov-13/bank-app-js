@@ -243,6 +243,20 @@ class IQuery {
   // FORM
 
   /**
+   * Get or set the value of the input element
+   * @param {string} [newValue] The new value to set
+   * @returns {IQuery | string} A new IQuery instance or the current value
+   */
+  value(newValue) {
+    if (typeof newValue === 'undefined') {
+      return this.element.value;
+    } else {
+      this.element.value = newValue;
+      return this;
+    }
+  }
+
+  /**
    * Set attributes and event listeners on an input element
    * @param {function} onInput The callback to call when the input element is changed
    * @param {object} rest The attributes to set on the input element
@@ -327,6 +341,20 @@ class IQuery {
       this.element.setAttribute(attributeName, value);
       return this;
     }
+  }
+
+  /**
+   * Remove an attribute from the element
+   * @param {string} attributeName The name of the attribute to remove
+   * @returns {IQuery} A new IQuery instance
+   * @throws {Error} If attributeName is not a string
+   */
+  removeAttr(attributeName) {
+    if (typeof attributeName !== 'string') {
+      throw new Error(`attributeName must be string`);
+    }
+    this.element.removeAttribute(attributeName);
+    return this;
   }
 }
 

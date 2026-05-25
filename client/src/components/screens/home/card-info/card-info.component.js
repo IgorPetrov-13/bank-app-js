@@ -1,6 +1,7 @@
 import styles from './card-info.module.scss';
 import template from './card-info.template.html';
 import { CardService } from '@/api/card.service';
+import { BALANCE_UPDATED } from '@/constants/event.constants';
 import ChildComponent from '@/core/component/child.component';
 import { $I } from '@/core/iQuery/iquery.lib';
 import renderService from '@/core/services/render.service';
@@ -15,7 +16,25 @@ export class CardInfo extends ChildComponent {
     this.cardService = new CardService();
     this.cardStore = Store.getInstance();
     this.element = renderService.htmlToElement(template, [], styles);
+
+    this.#addListeners();
   }
+
+  #addListeners() {
+    document.addEventListener(BALANCE_UPDATED, this.#onUpdateBalance);
+  }
+
+  #removeListeners() {
+    document.removeEventListener(BALANCE_UPDATED, this.#onUpdateBalance);
+  }
+
+  destroy() {
+    this.#removeListeners();
+  }
+
+  #onUpdateBalance = () => {
+    this.fillElements();
+  };
 
   #copyCardNumber(e) {
     navigator.clipboard.writeText(e.target.textContent).then(() => {
