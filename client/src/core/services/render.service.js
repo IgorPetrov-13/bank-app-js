@@ -8,10 +8,9 @@ class RenderService {
    * @returns {HTMLElement}
    */
   htmlToElement(html, components = [], styles) {
-    const template = document.createElement('template');
-    template.innerHTML = html.trim();
-
-    const element = template.content.firstChild;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const element = doc.body.firstChild;
 
     if (styles) {
       this.#applyModuleStyles(styles, element);
@@ -42,7 +41,9 @@ class RenderService {
 
         if (foundComponent) {
           const componentContent =
-            foundComponent instanceof ChildComponent ? foundComponent.render() : new foundComponent().render();
+            foundComponent instanceof ChildComponent
+              ? foundComponent.render()
+              : new foundComponent().render();
           element.replaceWith(componentContent);
         } else {
           console.error(`Component "${componentName}" not found in the provided components array.`);
