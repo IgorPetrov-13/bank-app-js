@@ -1,5 +1,6 @@
 import { Actions } from './actions/actions.component';
 import { CardInfo } from './card-info/card-info.component';
+import { Contacts } from './contacts/contacts.component';
 import styles from './home.module.scss';
 import template from './home.template.html';
 import { Field } from '@/components/ui/field/field.component';
@@ -13,7 +14,7 @@ export class Home extends BaseScreen {
     super({ title: 'Home' });
   }
   render() {
-    const element = renderService.htmlToElement(template, [CardInfo, Actions], styles);
+    const element = renderService.htmlToElement(template, [CardInfo, Actions, Contacts], styles);
     $I(element).find('h1').css('color', 'green');
 
     return element;
