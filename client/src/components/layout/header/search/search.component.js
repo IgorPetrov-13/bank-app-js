@@ -26,7 +26,7 @@ export class Search extends ChildComponent {
       searchResultsBlock.html('');
       users.forEach((user, index) => {
         const userItem = new UserItem(user, true, () => {
-          //TODO sending
+          $I('[name="card-number"]').value(formatCardNumber(user.card.number));
           searchResultsBlock.html('');
         }).render();
 

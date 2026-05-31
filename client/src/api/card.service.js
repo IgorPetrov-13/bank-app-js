@@ -5,7 +5,7 @@ import Store from '@/core/store/store';
 export class CardService {
   #BASE_URL = '/cards';
   constructor() {
-    this.store = Store.getInstance();
+    this.store = Store.getInstance().state;
     this.notificationService = new NotificationService();
   }
 
